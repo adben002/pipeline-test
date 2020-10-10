@@ -129,3 +129,4 @@ Resources:
                 StackName: !Sub ${ProjectName}-codepipeline
                 TemplatePath: RepoSource::pipeline.yaml
                 RoleArn: !GetAtt SitePipeLineRole.Arn
+                Capabilities: CAPABILITY_IAM
