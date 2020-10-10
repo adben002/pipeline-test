@@ -76,7 +76,7 @@ Resources:
   CodePipelineasdas:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: !Sub '${ProjectName}-repo-codepipeline'
+      Name: 'sadifojsaiodfjiosdjf-repo-codepipeline'
       RoleArn: !GetAtt CodePipelineRoleqwq.Arn
       ArtifactStore:
         Type: S3
@@ -105,6 +105,6 @@ Resources:
                 Provider: CloudFormation
               Configuration:
                 ActionMode: CREATE_UPDATE
-                StackName: !Sub '${ProjectName}-codepipeline'
+                StackName: 'asdsadasdsad-codepipeline'
                 TemplatePath: RepoSource::pipeline.yaml
                 RoleArn: !GetAtt SitePipeLineRoleasd.Arn
