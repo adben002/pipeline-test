@@ -41,7 +41,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: s3:*
-                Resource: !Sub ${CodePipelineBucket.Arn}/*
+                Resource: !Sub '${CodePipelineBucket.Arn}/*'
         - PolicyName: CloudformationPipelineDeployment
           PolicyDocument:
             Version: 2012-10-17
@@ -50,7 +50,7 @@ Resources:
                 Action:
                   - cloudformation:DescribeStacks
                   - cloudformation:CreateStack
-                Resource: !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/testingtesting-codepipeline/*
+                Resource: !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/testingtesting-codepipeline/*'
         - PolicyName: PassOntoSiteRole
           PolicyDocument:
             Version: 2012-10-17
@@ -76,7 +76,7 @@ Resources:
   CodePipelineasdas:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: !Sub ${ProjectName}-repo-codepipeline
+      Name: !Sub '${ProjectName}-repo-codepipeline'
       RoleArn: !GetAtt CodePipelineRoleqwq.Arn
       ArtifactStore:
         Type: S3
@@ -105,6 +105,6 @@ Resources:
                 Provider: CloudFormation
               Configuration:
                 ActionMode: CREATE_UPDATE
-                StackName: !Sub ${ProjectName}-codepipeline
+                StackName: !Sub '${ProjectName}-codepipeline'
                 TemplatePath: RepoSource::pipeline.yaml
                 RoleArn: !GetAtt SitePipeLineRoleasd.Arn
