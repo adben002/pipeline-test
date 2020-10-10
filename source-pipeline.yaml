@@ -1,28 +1,44 @@
-AWSTemplateFormatVersion: "2010-09-09"
-Description: |
-  A bucket to store lambda function source codes.
+AWSTemplateFormatVersion: 2010-09-09
+
+Parameters:
+  # Domain: example-com
+  ProjectName:
+    Description: The project name
+    Type: String
+    MinLength: 4
+    MaxLength: 253
+    AllowedPattern: '[a-z0-9]+[-.a-z0-9]*'
+    ConstraintDescription: |
+      Provide a valid project name using only lowercase letters,
+      numbers, and dash (-).
+  GitHubOwner:
+    Description: GitHub account username.
+    Type: String
+  GitHubRepo:
+    Description: Static site repo name.
+    Type: String
+  GitHubBranch:
+    Description: The branch that will trigger build/deploy.
+    Type: String
+    Default: master
+  GitHubOAuthToken:
+    Description: OAuth or personal access token.
+    Type: String
+    NoEcho: true
 
 Resources:
-  LambdaCodeStoreBucket:
-    Type: AWS::S3::Bucket
-    DeletionPolicy: Retain
 
-#  CodePipeLineTriggerRule:
-#    Type: AWS::Events::Rule
-#    Properties:
-#      Description: PipeLIneTriggerRule
-#      EventPattern:
-#        resources:
-#          - arn:aws:codepipeline:us-east-1:410721798786:adben002-net-pipeline-test-init-repo-codepipeline
-#        detail-type:
-#          - "CodePipeline Pipeline Execution State Change"
-#        detail:
-#          state:
-#            - "SUCCEEDED"
-#      State: "ENABLED"
+  # Bucket for CodePipeline artifact storage: codepipeline.example.com
+  CodePipelineBucket:
+    Type: AWS::S3::Bucket
+    Properties:
+      BucketName: !Sub ${ProjectName}-codepipeline-artifact-store
+      VersioningConfiguration:
+        Status: Enabled
+    DeletionPolicy: Delete
 
   # Role for CodePipeline
-  CodePipelineRoleqwq:
+  CodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -50,16 +66,16 @@ Resources:
                 Action:
                   - cloudformation:DescribeStacks
                   - cloudformation:CreateStack
-                Resource: !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/testingtesting-codepipeline/*
+                Resource: !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProjectName}-codepipeline/*
         - PolicyName: PassOntoSiteRole
           PolicyDocument:
             Version: 2012-10-17
             Statement:
               - Effect: Allow
                 Action: iam:PassRole
-                Resource: !GetAtt SitePipeLineRoleasd.Arn
+                Resource: !GetAtt SitePipeLineRole.Arn
 
-  SitePipeLineRoleasd:
+  SitePipeLineRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -73,23 +89,28 @@ Resources:
         - arn:aws:iam::aws:policy/job-function/SystemAdministrator
 
   # Pipeline for running source
-  CodePipelineasdas:
+  CodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
       Name: !Sub ${ProjectName}-repo-codepipeline
-      RoleArn: !GetAtt CodePipelineRoleqwq.Arn
+      RoleArn: !GetAtt CodePipelineRole.Arn
       ArtifactStore:
         Type: S3
-        Location: adben002-net-pipeline-test-init-codepipeline-artifact-store
+        Location: !Ref CodePipelineBucket
       Stages:
         - Name: Source
           Actions:
             - Name: SourceAction
               ActionTypeId:
                 Category: Source
-                Owner: AWS
+                Owner: ThirdParty
                 Version: 1
-                Provider: S3
+                Provider: GitHub
+              Configuration:
+                Owner: !Ref GitHubOwner
+                Repo: !Ref GitHubRepo
+                Branch: !Ref GitHubBranch
+                OAuthToken: !Ref GitHubOAuthToken
               OutputArtifacts:
                 - Name: RepoSource
               RunOrder: 1
@@ -107,4 +128,4 @@ Resources:
                 ActionMode: CREATE_UPDATE
                 StackName: !Sub ${ProjectName}-codepipeline
                 TemplatePath: RepoSource::pipeline.yaml
-                RoleArn: !GetAtt SitePipeLineRoleasd.Arn
+                RoleArn: !GetAtt SitePipeLineRole.Arn
