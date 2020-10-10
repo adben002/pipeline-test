@@ -41,7 +41,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: s3:*
-                Resource: !Sub '${CodePipelineBucket.Arn}/*'
+                Resource: !Sub 'arn:aws:s3:::adben002-net-pipeline-test-init-codepipeline-artifact-store/*'
         - PolicyName: CloudformationPipelineDeployment
           PolicyDocument:
             Version: 2012-10-17
