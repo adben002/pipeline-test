@@ -86,7 +86,7 @@ Resources:
             Action: sts:AssumeRole
       Path: /
       ManagedPolicyArns:
-        - arn:aws:iam::aws:policy/job-function/SystemAdministrator
+        - arn:aws:iam::aws:policy/AdministratorAccess
 
   # Pipeline for running source
   CodePipeline:
