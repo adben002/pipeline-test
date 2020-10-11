@@ -90,6 +90,9 @@ Resources:
                 Owner: AWS
                 Version: 1
                 Provider: S3
+              Configuration:
+                S3Bucket: adben002-net-pipeline-test-init-codepipeline-artifact-store
+                S3ObjectKey: adben002-net-pipelin
               OutputArtifacts:
                 - Name: RepoSource
               RunOrder: 1
