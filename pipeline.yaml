@@ -37,7 +37,7 @@ Resources:
                   - cloudformation:DescribeStacks
                   - cloudformation:CreateStack
                   - cloudformation:UpdateStack
-                Resource: !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/testingtesting-codepipeline/*'
+                Resource: !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/asdsadasdsad-codepipeline/*'
         - PolicyName: PassOntoSiteRole
           PolicyDocument:
             Version: 2012-10-17
