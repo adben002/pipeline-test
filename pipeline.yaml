@@ -36,6 +36,7 @@ Resources:
                 Action:
                   - cloudformation:DescribeStacks
                   - cloudformation:CreateStack
+                  - cloudformation:UpdateStack
                 Resource: !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/testingtesting-codepipeline/*'
         - PolicyName: PassOntoSiteRole
           PolicyDocument:
@@ -78,7 +79,7 @@ Resources:
                 Provider: S3
               Configuration:
                 S3Bucket: adben002-net-pipeline-test-init-codepipeline-artifact-store
-                S3ObjectKey: adben002-net-pipelin
+                S3ObjectKey: repo-source
               OutputArtifacts:
                 - Name: RepoSource
               RunOrder: 1
