@@ -131,3 +131,17 @@ Resources:
                 TemplatePath: RepoSource::pipeline.yaml
                 RoleArn: !GetAtt SitePipeLineRole.Arn
                 Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
+              RunOrder: 1
+            - Name: CopyRepo
+              InputArtifacts:
+                - Name: RepoSource
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: S3
+                Version: 1
+              Configuration:
+                BucketName: !Sub ${ProjectName}-codepipeline-artifact-store
+                Extract: false
+                ObjectKey: repo-source
+              RunOrder: 2
