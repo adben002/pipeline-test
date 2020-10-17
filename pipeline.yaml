@@ -81,13 +81,13 @@ Resources:
                 S3Bucket: adben002-net-pipeline-test-init-codepipeline-artifact-store
                 S3ObjectKey: repo-source
               OutputArtifacts:
-                - Name: RepoSource
+                - Name: RepoSourceasdasdas
               RunOrder: 1
         - Name: Deploy
           Actions:
             - Name: DeployPipeline
               InputArtifacts:
-                - Name: RepoSource
+                - Name: RepoSourceasdasdas
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
