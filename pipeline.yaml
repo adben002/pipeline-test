@@ -81,7 +81,18 @@ Resources:
               Service:
                 - codebuild.amazonaws.com
             Action: sts:AssumeRole
-      Path: "/"
+      Policies:
+        - PolicyName: AccessPipelineBucket
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Resource:
+                  - !Sub 'arn:aws:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}-LambdaBuilder:log-stream:*'
+                Action:
+                  - logs:CreateLogGroup
+                  - logs:CreateLogStream
+                  - logs:PutLogEvents
 
   CodeBuild:
     Type: AWS::CodeBuild::Project
