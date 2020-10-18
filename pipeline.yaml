@@ -96,5 +96,5 @@ Resources:
               Configuration:
                 ActionMode: CREATE_UPDATE
                 StackName: 'asdsadasdsad-codepipeline'
-                TemplatePath: RepoSourceasdasdas::pipeline.yaml
+                TemplatePath: RepoSourceasdasdas::lambda-bucket.yaml
                 RoleArn: !GetAtt SitePipeLineRoleasd.Arn
