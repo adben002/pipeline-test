@@ -41,6 +41,13 @@ Resources:
                   - cloudformation:CreateStack
                   - cloudformation:UpdateStack
                 Resource: !Sub 'arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/asdsadasdsad-codepipeline/*'
+        - PolicyName: RunBuild
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: codebuild:StartBuild
+                Resource: !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${AWS::StackName}-LambdaBuilder'
         - PolicyName: PassOntoSiteRole
           PolicyDocument:
             Version: 2012-10-17
@@ -72,14 +79,7 @@ Resources:
               Service:
                 - codebuild.amazonaws.com
             Action: sts:AssumeRole
-      Policies:
-        - PolicyName: AccessPipelineBucket
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action: codebuild:StartBuild
-                Resource: !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${AWS::StackName}-LambdaBuilder'
+      Path: "/"
 
   CodeBuild:
     Type: AWS::CodeBuild::Project
