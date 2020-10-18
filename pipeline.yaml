@@ -29,8 +29,8 @@ Resources:
                 Action: s3:*
                 Resource: arn:aws:s3:::adben002-net-pipeline-test-init-codepipeline-artifact-store
               - Effect: Allow
-              Action: s3:*
-              Resource: arn:aws:s3:::adben002-net-pipeline-test-init-codepipeline-artifact-store/*
+                Action: s3:*
+                Resource: arn:aws:s3:::adben002-net-pipeline-test-init-codepipeline-artifact-store/*
         - PolicyName: CloudformationPipelineDeployment
           PolicyDocument:
             Version: 2012-10-17
