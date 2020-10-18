@@ -46,7 +46,9 @@ Resources:
             Version: 2012-10-17
             Statement:
               - Effect: Allow
-                Action: codebuild:StartBuild
+                Actions:
+                  - codebuild:StartBuild
+                  - codebuild:BatchGetBuilds
                 Resource: !Sub 'arn:aws:codebuild:${AWS::Region}:${AWS::AccountId}:project/${AWS::StackName}-LambdaBuilder'
         - PolicyName: PassOntoSiteRole
           PolicyDocument:
