@@ -4,12 +4,11 @@ Description: |
 
 Resources:
   LambdaCodeStoreBucket:
-    Type: "AWS::S3::Bucket"
-    DeletionPolicy: Retain
+    Type: 'AWS::S3::Bucket'
 
 Outputs:
   BucketName:
     Value: !Ref LambdaCodeStoreBucket
     Description: Bucket name
     Export:
-      Name: "LambdaCodeBucket"
+      Name: LambdaCodeBucket
