@@ -8,6 +8,7 @@ Resources:
 
 Outputs:
   BucketName:
+    Name: 'adben002-net-lambda-code-bucket'
     Value: !Ref LambdaCodeStoreBucket
     Description: Bucket name
     Export:

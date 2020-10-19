@@ -172,3 +172,16 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuild
               RunOrder: 1
+            - Name: CopyLambda
+              InputArtifacts:
+                - Name: sadsadsadsadsadsdretertr
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Provider: S3
+                Version: 1
+              Configuration:
+                BucketName: adben002-net-lambda-code-bucket
+                Extract: true
+                ObjectKey: certificate-validator
+              RunOrder: 2
