@@ -82,7 +82,7 @@ Resources:
                 - codebuild.amazonaws.com
             Action: sts:AssumeRole
       Policies:
-        - PolicyName: AccessPipelineBucket
+        - PolicyName: BuildLog
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -93,6 +93,16 @@ Resources:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
                   - logs:PutLogEvents
+        - PolicyName: AccessPipelineBucket
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: s3:*
+                Resource: arn:aws:s3:::adben002-net-pipeline-test-init-codepipeline-artifact-store
+              - Effect: Allow
+                Action: s3:*
+                Resource: arn:aws:s3:::adben002-net-pipeline-test-init-codepipeline-artifact-store/*
 
   CodeBuild:
     Type: AWS::CodeBuild::Project
