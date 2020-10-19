@@ -117,7 +117,7 @@ Resources:
       ServiceRole: !Ref CodeBuildRole
       Source:
         Type: CODEPIPELINE
-        BuildSpec: ./app/lambda-buildspec.yaml
+        BuildSpec: ./lambda-buildspec.yaml
 
   # Pipeline for running source
   CodePipelineasdas:
