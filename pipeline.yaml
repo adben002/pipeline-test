@@ -145,6 +145,20 @@ Resources:
               RunOrder: 1
         - Name: DeployLambda
           Actions:
+            - Name: DeployPipeline
+              InputArtifacts:
+                - Name: RepoSourceasdasdas
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: 1
+                Provider: CloudFormation
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                StackName: 'asdsadasdsad-codepipeline'
+                TemplatePath: RepoSourceasdasdas::lambda-bucket.yaml
+                RoleArn: !GetAtt SitePipeLineRoleasd.Arn
+              RunOrder: 1
             - Name: CodeBuild
               InputArtifacts:
                 - Name: RepoSourceasdasdas
@@ -158,17 +172,3 @@ Resources:
               Configuration:
                 ProjectName: !Ref CodeBuild
               RunOrder: 1
-            - Name: DeployPipeline
-              InputArtifacts:
-                - Name: sadsadsadsadsadsdretertr
-              ActionTypeId:
-                Category: Deploy
-                Owner: AWS
-                Version: 1
-                Provider: CloudFormation
-              Configuration:
-                ActionMode: CREATE_UPDATE
-                StackName: 'asdsadasdsad-codepipeline'
-                TemplatePath: RepoSourceasdasdas::lambda-bucket.yaml
-                RoleArn: !GetAtt SitePipeLineRoleasd.Arn
-              RunOrder: 2

@@ -5,3 +5,8 @@ phases:
     commands:
       - cd certificateValidator/
       - zip certificateValidator.zip *
+
+artifacts:
+  files:
+    - certificateValidator/certificateValidator.zip
+  discard-paths: yes
