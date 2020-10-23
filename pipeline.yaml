@@ -191,5 +191,4 @@ Resources:
                 BucketName: adben002-net-lambda-code-bucket
                 Extract: true
                 ObjectKey: certificate-validator
-              RoleArn:
               RunOrder: 2
