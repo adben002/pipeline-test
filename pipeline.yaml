@@ -57,6 +57,13 @@ Resources:
               - Effect: Allow
                 Action: iam:PassRole
                 Resource: !GetAtt SitePipeLineRoleasd.Arn
+        - PolicyName: LambdaCodeBucket
+        PolicyDocument:
+          Version: 2012-10-17
+          Statement:
+            - Effect: Allow
+              Action: s3:*
+              Resource: arn:aws:s3:::adben002-net-lambda-code-bucket/*
 
   SitePipeLineRoleasd:
     Type: AWS::IAM::Role
@@ -184,4 +191,5 @@ Resources:
                 BucketName: adben002-net-lambda-code-bucket
                 Extract: true
                 ObjectKey: certificate-validator
+              RoleArn:
               RunOrder: 2
