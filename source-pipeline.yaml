@@ -39,6 +39,16 @@ Resources:
             Principal:
               Service: codepipeline.amazonaws.com
             Action: sts:AssumeRole
+        Policies:
+          - PolicyName: AccessSourceCodePipelineArtifactStore
+            PolicyDocument:
+              Version: 2012-10-17
+              Statement:
+                - Effect: Allow
+                  Action:
+                    - s3:putObject
+                    - s3:getObject
+                  Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
 
   SourceCodePipelineCloudformationDeploymentRole:
     Type: AWS::IAM::Role
@@ -68,6 +78,15 @@ Resources:
               - Effect: Allow
                 Action: iam:PassRole
                 Resource: !GetAtt StackDeploymentRole.Arn
+        - PolicyName: AccessSourceCodePipelineArtifactStore
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:putObject
+                  - s3:getObject
+                Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
 
   SourceCodePipelineCopyRepoForStackPipelineRole:
     Type: AWS::IAM::Role
@@ -87,23 +106,15 @@ Resources:
               - Effect: Allow
                 Action: s3:putObject
                 Resource: !Sub '${SourceStorage.Arn}/*'
-
-  AccessSourceCodePipelineArtifactStore:
-    Type: AWS::IAM::Policy
-    Properties:
-      PolicyName: AccessSourceCodePipelineArtifactStore
-      PolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Action:
-              - s3:putObject
-              - s3:getObject
-            Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
-      Roles:
-        - !Ref SourceCodePipelineRole
-        - !Ref SourceCodePipelineCloudformationDeploymentRole
-        - !Ref SourceCodePipelineCopyRepoForStackPipelineRole
+        - PolicyName: AccessSourceCodePipelineArtifactStore
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:putObject
+                  - s3:getObject
+                Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
 
   StackDeploymentRole:
     Type: AWS::IAM::Role
