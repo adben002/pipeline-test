@@ -175,4 +175,5 @@ Resources:
                 BucketName: !Ref SourceStorage
                 Extract: false
                 ObjectKey: source-code
+              RoleArn: !GetAtt SourceCodePipelineCopyRepoForStackPipelineRole.Arn
               RunOrder: 2
