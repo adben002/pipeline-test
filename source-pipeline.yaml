@@ -1,16 +1,6 @@
 AWSTemplateFormatVersion: 2010-09-09
 
 Parameters:
-  # Domain: example-com
-  ProjectName:
-    Description: The project name
-    Type: String
-    MinLength: 4
-    MaxLength: 253
-    AllowedPattern: '[a-z0-9]+[-.a-z0-9]*'
-    ConstraintDescription: |
-      Provide a valid project name using only lowercase letters,
-      numbers, and dash (-).
   GitHubOwner:
     Description: GitHub account username.
     Type: String
@@ -28,17 +18,18 @@ Parameters:
 
 Resources:
 
-  # Bucket for CodePipeline artifact storage: codepipeline.example.com
-  CodePipelineBucket:
+  SourceCodePipelineArtifactStore:
+    Type: AWS::S3::Bucket
+    DeletionPolicy: Retain
+
+  SourceStorage:
     Type: AWS::S3::Bucket
     Properties:
-      BucketName: !Sub ${ProjectName}-codepipeline-artifact-store
       VersioningConfiguration:
         Status: Enabled
-    DeletionPolicy: Delete
+    DeletionPolicy: Retain
 
-  # Role for CodePipeline
-  CodePipelineRole:
+  SourceCodePipelineRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
@@ -46,19 +37,21 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              Service:
-                - codepipeline.amazonaws.com
-            Action:
-              - sts:AssumeRole
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
+
+  SourceCodePipelineCloudformationDeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !GetAtt SourceCodePipelineRole.Arn
+            Action: sts:AssumeRole
       Policies:
-        - PolicyName: AccessPipelineBucket
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action: s3:*
-                Resource: !Sub ${CodePipelineBucket.Arn}/*
-        - PolicyName: CloudformationPipelineDeployment
+        - PolicyName: SourceCodePipelineCloudformationDeploymentPolicy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
@@ -67,37 +60,50 @@ Resources:
                   - cloudformation:DescribeStacks
                   - cloudformation:CreateStack
                   - cloudformation:UpdateStack
-                Resource: !Sub arn:aws:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${ProjectName}-codepipeline/*
-        - PolicyName: PassOntoSiteRole
+                Resource: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}-stack-pipeline/*'
+        - PolicyName: SourceCodePipelineCloudformationPassOntoStackPolicy
           PolicyDocument:
             Version: 2012-10-17
             Statement:
               - Effect: Allow
                 Action: iam:PassRole
-                Resource: !GetAtt SitePipeLineRole.Arn
+                Resource: !GetAtt StackDeploymentRole.Arn
 
-  SitePipeLineRole:
+  AccessSourceCodePipelineArtifactStore:
+    Type: AWS::IAM::Policy
+    Properties:
+      PolicyName: AccessSourceCodePipelineArtifactStore
+      PolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Action:
+              - s3:putObject
+              - s3:getObject
+            Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
+      Roles:
+        - !Ref SourceCodePipelineRole
+        - !Ref SourceCodePipelineCloudformationDeploymentRole
+
+  StackDeploymentRole:
     Type: AWS::IAM::Role
     Properties:
       AssumeRolePolicyDocument:
         Statement:
           - Effect: Allow
             Principal:
-              Service: [cloudformation.amazonaws.com]
+              Service: cloudformation.amazonaws.com
             Action: sts:AssumeRole
-      Path: /
       ManagedPolicyArns:
         - arn:aws:iam::aws:policy/AdministratorAccess
 
-  # Pipeline for running source
-  CodePipeline:
+  SourceCodePipeline:
     Type: AWS::CodePipeline::Pipeline
     Properties:
-      Name: !Sub ${ProjectName}-repo-codepipeline
-      RoleArn: !GetAtt CodePipelineRole.Arn
+      RoleArn: !GetAtt SourceCodePipelineRole.Arn
       ArtifactStore:
         Type: S3
-        Location: !Ref CodePipelineBucket
+        Location: !Ref SourceCodePipelineArtifactStore
       Stages:
         - Name: Source
           Actions:
@@ -113,13 +119,12 @@ Resources:
                 Branch: !Ref GitHubBranch
                 OAuthToken: !Ref GitHubOAuthToken
               OutputArtifacts:
-                - Name: RepoSource
-              RunOrder: 1
+                - Name: RepoSourceCode
         - Name: Deploy
           Actions:
-            - Name: DeployPipeline
+            - Name: DeployStackPipeline
               InputArtifacts:
-                - Name: RepoSource
+                - Name: RepoSourceCode
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
@@ -127,21 +132,22 @@ Resources:
                 Provider: CloudFormation
               Configuration:
                 ActionMode: CREATE_UPDATE
-                StackName: !Sub ${ProjectName}-codepipeline
-                TemplatePath: RepoSource::pipeline.yaml
-                RoleArn: !GetAtt SitePipeLineRole.Arn
+                StackName: !Sub '${AWS::StackName}-stack-pipeline'
+                TemplatePath: RepoSourceCode::pipeline.yaml
+                RoleArn: !GetAtt StackDeploymentRole.Arn
                 Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
+              RoleArn: !GetAtt SourceCodePipelineCloudformationDeploymentRole.Arn
               RunOrder: 1
-            - Name: CopyRepo
+            - Name: CopyRepoForStackPipeline
               InputArtifacts:
-                - Name: RepoSource
+                - Name: RepoSourceCode
               ActionTypeId:
                 Category: Deploy
                 Owner: AWS
                 Provider: S3
                 Version: 1
               Configuration:
-                BucketName: !Sub ${ProjectName}-codepipeline-artifact-store
+                BucketName: !Ref SourceStorage
                 Extract: false
-                ObjectKey: repo-source
+                ObjectKey: source-code
               RunOrder: 2
