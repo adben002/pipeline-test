@@ -134,6 +134,7 @@ Resources:
                 ActionMode: CREATE_UPDATE
                 StackName: !Sub '${AWS::StackName}-stack-pipeline'
                 TemplatePath: RepoSourceCode::pipeline.yaml
+                ParameterOverrides: !Sub '{"SourceStorageBucketName": "${!Ref SourceStorage}"}'
                 RoleArn: !GetAtt StackDeploymentRole.Arn
                 Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
               RoleArn: !GetAtt SourceCodePipelineCloudformationDeploymentRole.Arn
