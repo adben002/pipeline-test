@@ -133,7 +133,7 @@ Resources:
       RoleArn: !GetAtt CodePipelineRoleqwq.Arn
       ArtifactStore:
         Type: S3
-        Location: adben002-net-pipeline-test-init-codepipeline-artifact-store
+        Location: !Sub '${SourceStorageBucketName}'
       Stages:
         - Name: Source
           Actions:
@@ -144,7 +144,7 @@ Resources:
                 Version: 1
                 Provider: S3
               Configuration:
-                S3Bucket: adben002-net-pipeline-test-init-codepipeline-artifact-store
+                S3Bucket: !Sub '${SourceStorageBucketName}'
                 S3ObjectKey: repo-source
               OutputArtifacts:
                 - Name: RepoSourceasdasdas
