@@ -39,16 +39,16 @@ Resources:
             Principal:
               Service: codepipeline.amazonaws.com
             Action: sts:AssumeRole
-        Policies:
-          - PolicyName: AccessSourceCodePipelineArtifactStore
-            PolicyDocument:
-              Version: 2012-10-17
-              Statement:
-                - Effect: Allow
-                  Action:
-                    - s3:putObject
-                    - s3:getObject
-                  Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
+      Policies:
+        - PolicyName: AccessSourceCodePipelineArtifactStore
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:putObject
+                  - s3:getObject
+                Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
 
   SourceCodePipelineCloudformationDeploymentRole:
     Type: AWS::IAM::Role
