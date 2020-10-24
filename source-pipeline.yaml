@@ -69,6 +69,25 @@ Resources:
                 Action: iam:PassRole
                 Resource: !GetAtt StackDeploymentRole.Arn
 
+  SourceCodePipelineCopyRepoForStackPipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !GetAtt SourceCodePipelineRole.Arn
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SourceCodePipelineCopyRepoForStackPipelinePolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: s3:putObject
+                Resource: !Sub '${SourceStorage.Arn}/*'
+
   AccessSourceCodePipelineArtifactStore:
     Type: AWS::IAM::Policy
     Properties:
@@ -84,6 +103,7 @@ Resources:
       Roles:
         - !Ref SourceCodePipelineRole
         - !Ref SourceCodePipelineCloudformationDeploymentRole
+        - !Ref SourceCodePipelineCopyRepoForStackPipelineRole
 
   StackDeploymentRole:
     Type: AWS::IAM::Role
