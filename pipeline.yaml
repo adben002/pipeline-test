@@ -145,7 +145,7 @@ Resources:
                 Provider: S3
               Configuration:
                 S3Bucket: !Sub '${SourceStorageBucketName}'
-                S3ObjectKey: repo-source
+                S3ObjectKey: source-code
               OutputArtifacts:
                 - Name: RepoSourceasdasdas
               RunOrder: 1
