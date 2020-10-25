@@ -128,27 +128,6 @@ Resources:
         Type: CODEPIPELINE
         BuildSpec: ./lambda-buildspec.yaml
 
-  SourceCodePipelineRole:
-    Type: AWS::IAM::Role
-    Properties:
-      AssumeRolePolicyDocument:
-        Version: 2012-10-17
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service: codepipeline.amazonaws.com
-            Action: sts:AssumeRole
-      Policies:
-        - PolicyName: AccessSourceCodePipelineArtifactStore
-          PolicyDocument:
-            Version: 2012-10-17
-            Statement:
-              - Effect: Allow
-                Action:
-                  - s3:putObject
-                  - s3:getObject
-                Resource: !Sub 'arn:${AWS::Partition}:s3:::${SourceStorageBucketName}'
-
   SourceCodePipelineCloudformationDeploymentRole:
     Type: AWS::IAM::Role
     Properties:
@@ -157,7 +136,7 @@ Resources:
         Statement:
           - Effect: Allow
             Principal:
-              AWS: !GetAtt SourceCodePipelineRole.Arn
+              AWS: !GetAtt CodePipelineRoleqwq.Arn
             Action: sts:AssumeRole
       Policies:
         - PolicyName: SourceCodePipelineCloudformationDeploymentPolicy
