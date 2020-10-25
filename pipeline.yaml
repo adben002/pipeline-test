@@ -156,15 +156,16 @@ Resources:
               - Effect: Allow
                 Action: iam:PassRole
                 Resource: !GetAtt StackDeploymentRole.Arn
-        - PolicyName: AccessSourceCodePipelineArtifactStore
+        - PolicyName: AccessPipelineBucket
           PolicyDocument:
             Version: 2012-10-17
             Statement:
               - Effect: Allow
-                Action:
-                  - s3:putObject
-                  - s3:getObject
+                Action: s3:*
                 Resource: !Sub 'arn:${AWS::Partition}:s3:::${SourceStorageBucketName}'
+              - Effect: Allow
+                Action: s3:*
+                Resource: !Sub 'arn:${AWS::Partition}:s3:::${SourceStorageBucketName}/*'
 
   StackDeploymentRole:
     Type: AWS::IAM::Role
