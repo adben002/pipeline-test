@@ -257,6 +257,7 @@ Resources:
       DomainName: !Ref DomainName
       ValidationMethod: DNS
       ServiceToken: !GetAtt CreateAndValidateCertificateLambda.Arn
+      NameServers: !GetAtt Route53HostedZone.NameServers
 
   # Check ACM Certificate validity status
   IssuedCertificate:
