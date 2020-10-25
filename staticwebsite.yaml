@@ -121,7 +121,8 @@ Resources:
     Properties:
       DistributionConfig:
         Enabled: true
-        Aliases: !Ref RedirectBucket
+        Aliases:
+          - !Ref RedirectBucket
         PriceClass: PriceClass_100
         Origins:
           - DomainName:
