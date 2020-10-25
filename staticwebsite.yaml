@@ -286,8 +286,13 @@ Resources:
     Properties:
       HostedZoneId: !Ref Route53HostedZone
       RecordSets:
-        - Name: !GetAtt CertificateDNSRecord.Name
+        - Name: !GetAtt CertificateDNSRecord.Name1
           Type: "CNAME"
           TTL: 300
           ResourceRecords:
-            - !GetAtt CertificateDNSRecord.Value
+            - !GetAtt CertificateDNSRecord.Value1
+        - Name: !GetAtt CertificateDNSRecord.Name2
+          Type: "CNAME"
+          TTL: 300
+          ResourceRecords:
+            - !GetAtt CertificateDNSRecord.Value2

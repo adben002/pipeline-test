@@ -119,20 +119,24 @@ function certificateDNSRecord(event, context, callback) {
             var params = {
                 CertificateArn: certificateArn
             };
-            acm.describeCertificate(params, function (err1, data1) {
+            acm.describeCertificate(params, function(err1, data1) {
                 if (err1) {
                     response.send(event, context, response.FAILED, {
                         Error: err1.message
                     });
                 } else {
-                    var validationRecord =
+                    var validationRecord1 =
                         data1.Certificate.DomainValidationOptions[0].ResourceRecord;
+                    var validationRecord2 =
+                        data1.Certificate.DomainValidationOptions[1].ResourceRecord;
                     var certificateId = certificateArn.split("/")[1];
                     var responseData = {
                         CertificateArn: certificateArn,
                         CertificateId: certificateId,
-                        Name: validationRecord.Name,
-                        Value: validationRecord.Value
+                        Name1: validationRecord1.Name,
+                        Value1: validationRecord1.Value,
+                        Name2: validationRecord2.Name,
+                        Value2: validationRecord2.Value
                     };
                     response.send(
                         event,
