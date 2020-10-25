@@ -65,7 +65,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Action: s3:*
-                Resource: !Sub 'arn:${AWS::Partition}:s3:::adben002-net-lambda-code-bucket/*'
+                Resource: !Sub 'arn:${AWS::Partition}:s3:::*/*'
 
   SitePipeLineRoleasd:
     Type: AWS::IAM::Role
