@@ -240,7 +240,7 @@ Resources:
                 Provider: S3
                 Version: 1
               Configuration:
-                BucketName: adben002-net-lambda-code-bucket
+                BucketName: !ImportValue LambdaCodeBucket
                 Extract: true
                 ObjectKey: certificate-validator
               RunOrder: 2
