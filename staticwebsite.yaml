@@ -228,9 +228,9 @@ Resources:
                   - logs:*
                 Resource: arn:aws:logs:*:*:*
               - Effect: Allow
-              Action:
-                - lambda:InvokeFunction
-              Resource: '*'
+                Action:
+                  - lambda:InvokeFunction
+                Resource: '*'
 
   # Lambda to create and validate certificate
   CreateAndValidateCertificateLambda:
