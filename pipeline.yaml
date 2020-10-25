@@ -148,7 +148,7 @@ Resources:
                   - cloudformation:DescribeStacks
                   - cloudformation:CreateStack
                   - cloudformation:UpdateStack
-                Resource: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}-stack-pipeline/*'
+                Resource: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}-static-website/*'
         - PolicyName: SourceCodePipelineCloudformationPassOntoStackPolicy
           PolicyDocument:
             Version: 2012-10-17
