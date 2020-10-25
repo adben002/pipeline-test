@@ -244,7 +244,7 @@ Resources:
         Variables:
           EXEC_THRESHOLD_SECONDS: 200
       Timeout: 300
-      Runtime: nodejs6.10
+      Runtime: nodejs12.x
 
   # Certificate for HTTPS accesss through CloudFront
   Certificate:
