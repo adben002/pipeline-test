@@ -239,7 +239,7 @@ Resources:
         S3Bucket: !Join
           - ""
           - - !ImportValue LambdaCodeBucket
-        S3Key: "certificateValidator/certificateValidator.zip"
+        S3Key: "certificate-validator/certificateValidator.zip"
       Environment:
         Variables:
           EXEC_THRESHOLD_SECONDS: 200
