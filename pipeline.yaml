@@ -255,7 +255,7 @@ Resources:
               Configuration:
                 ActionMode: CREATE_UPDATE
                 StackName: !Sub '${AWS::StackName}-static-website'
-                TemplatePath: RepoSourceCode::staticwebsite.yaml
+                TemplatePath: RepoSourceasdasdas::staticwebsite.yaml
                 ParameterOverrides: !Join
                   - ''
                   - - '{'
