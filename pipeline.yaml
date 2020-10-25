@@ -147,7 +147,7 @@ Resources:
                 Action:
                   - s3:putObject
                   - s3:getObject
-                Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
+                Resource: !Sub 'arn:${AWS::Partition}:s3:::${SourceStorageBucketName}'
 
   SourceCodePipelineCloudformationDeploymentRole:
     Type: AWS::IAM::Role
@@ -185,7 +185,7 @@ Resources:
                 Action:
                   - s3:putObject
                   - s3:getObject
-                Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
+                Resource: !Sub 'arn:${AWS::Partition}:s3:::${SourceStorageBucketName}'
 
   StackDeploymentRole:
     Type: AWS::IAM::Role
