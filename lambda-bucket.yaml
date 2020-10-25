@@ -5,8 +5,7 @@ Description: |
 Resources:
   LambdaCodeStoreBucket:
     Type: 'AWS::S3::Bucket'
-    Properties:
-      BucketName: adben002-net-lambda-code-bucket
+    DeletionPolicy: Retain
 
 Outputs:
   BucketName:

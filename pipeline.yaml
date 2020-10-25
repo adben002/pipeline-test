@@ -3,6 +3,15 @@ AWSTemplateFormatVersion: "2010-09-09"
 Parameters:
   SourceStorageBucketName:
     Type: String
+  DomainName:
+    Type: String
+    Description: The base domain name for the web site (no 'www')
+    MinLength: 4
+    MaxLength: 253
+    AllowedPattern: '[a-z0-9]+[-.a-z0-9]*(\\.[a-z][a-z]+)+'
+    ConstraintDescription: |
+      Provide a valid domain name using only lowercase letters,
+      numbers, ., and dash (-)
 
 Resources:
 
@@ -125,6 +134,77 @@ Resources:
         Type: CODEPIPELINE
         BuildSpec: ./lambda-buildspec.yaml
 
+  SourceCodePipelineRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: codepipeline.amazonaws.com
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: AccessSourceCodePipelineArtifactStore
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:putObject
+                  - s3:getObject
+                Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
+
+  SourceCodePipelineCloudformationDeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: 2012-10-17
+        Statement:
+          - Effect: Allow
+            Principal:
+              AWS: !GetAtt SourceCodePipelineRole.Arn
+            Action: sts:AssumeRole
+      Policies:
+        - PolicyName: SourceCodePipelineCloudformationDeploymentPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - cloudformation:DescribeStacks
+                  - cloudformation:CreateStack
+                  - cloudformation:UpdateStack
+                Resource: !Sub 'arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:stack/${AWS::StackName}-stack-pipeline/*'
+        - PolicyName: SourceCodePipelineCloudformationPassOntoStackPolicy
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action: iam:PassRole
+                Resource: !GetAtt StackDeploymentRole.Arn
+        - PolicyName: AccessSourceCodePipelineArtifactStore
+          PolicyDocument:
+            Version: 2012-10-17
+            Statement:
+              - Effect: Allow
+                Action:
+                  - s3:putObject
+                  - s3:getObject
+                Resource: !Sub '${SourceCodePipelineArtifactStore.Arn}/*'
+
+  StackDeploymentRole:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AdministratorAccess
+
   # Pipeline for running source
   CodePipelineasdas:
     Type: AWS::CodePipeline::Pipeline
@@ -191,3 +271,28 @@ Resources:
                 Extract: true
                 ObjectKey: certificate-validator
               RunOrder: 2
+            - Name: DeployStackPipeline
+              InputArtifacts:
+                - Name: RepoSourceasdasdas
+              ActionTypeId:
+                Category: Deploy
+                Owner: AWS
+                Version: 1
+                Provider: CloudFormation
+              Configuration:
+                ActionMode: CREATE_UPDATE
+                StackName: !Sub '${AWS::StackName}-static-website'
+                TemplatePath: RepoSourceCode::staticwebsite.yaml
+                ParameterOverrides: !Join
+                  - ''
+                  - - '{'
+
+                    - '"DomainName": "'
+                    - !Ref DomainName
+                    - '"'
+
+                    - '}'
+                RoleArn: !GetAtt StackDeploymentRole.Arn
+                Capabilities: CAPABILITY_IAM,CAPABILITY_NAMED_IAM,CAPABILITY_AUTO_EXPAND
+              RoleArn: !GetAtt SourceCodePipelineCloudformationDeploymentRole.Arn
+              RunOrder: 3
