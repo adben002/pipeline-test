@@ -73,6 +73,20 @@ Resources:
         ErrorDocument: error.html
     DeletionPolicy: Delete
 
+  SampleBucketPolicy:
+    Type: AWS::S3::BucketPolicy
+    Properties:
+      Bucket: !Ref SiteBucket
+      PolicyDocument:
+        Statement:
+          - Action: 's3:GetObject'
+            Effect: Allow
+            Resource: !Join
+                - ''
+                - - 'arn:aws:s3:::'
+                  - !Ref SiteBucket
+                  - /*
+
   # CDN serves S3 content over HTTPS for example.com
   CloudFrontDistribution:
     Type: "AWS::CloudFront::Distribution"
