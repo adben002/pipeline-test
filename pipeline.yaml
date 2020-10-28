@@ -158,7 +158,7 @@ Resources:
             Statement:
               - Effect: Allow
                 Resource:
-                  - !Sub 'arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}-LambdaBuilder:log-stream:*'
+                  - !Sub 'arn:${AWS::Partition}:logs:${AWS::Region}:${AWS::AccountId}:log-group:/aws/codebuild/${AWS::StackName}-SiteSourceBuilder:log-stream:*'
                 Action:
                   - logs:CreateLogGroup
                   - logs:CreateLogStream
@@ -184,7 +184,7 @@ Resources:
         Image: aws/codebuild/standard:4.0
         Type: LINUX_CONTAINER
       Name: !Sub "${AWS::StackName}-SiteSourceBuilder"
-      ServiceRole: !Ref CodeBuildRole
+      ServiceRole: !Ref CodeBuildRole2
       Source:
         Type: CODEPIPELINE
         BuildSpec: |
