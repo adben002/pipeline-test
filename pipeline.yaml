@@ -214,7 +214,6 @@ Resources:
             files:
               - '**/*'
             base-directory: 'ui/build'
-            discard-paths: yes
 
   SourceCodePipelineCloudformationDeploymentRole:
     Type: AWS::IAM::Role
