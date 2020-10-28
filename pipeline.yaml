@@ -208,7 +208,6 @@ Resources:
                 - npm ci
             build:
               commands:
-                - cd ui/
                 - npm run build
 
           artifacts:
