@@ -194,10 +194,18 @@ Resources:
             install:
               runtime-versions:
                 nodejs: 12
+              commands:
+                - cd ui/
+                - npm ci
+            build:
+              commands:
+                - cd ui/
+                - npm run build
 
           artifacts:
             files:
-              - certificateValidator/certificateValidator.zip
+              - '**/*'
+            base-directory: 'ui/build'
             discard-paths: yes
 
   SourceCodePipelineCloudformationDeploymentRole:
