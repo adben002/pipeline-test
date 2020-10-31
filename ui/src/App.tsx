@@ -16,7 +16,9 @@ type JobInfo = {
     place: string,
     placeUrl: string,
     range: YearObject,
-    info: string[]
+    technicalScope: string,
+    details: string,
+    keyContributions: string[]
 }
 
 function formatZeroIndexedDate(day: number, month: number, year: number) {
@@ -26,19 +28,23 @@ function formatZeroIndexedDate(day: number, month: number, year: number) {
 const jobs: JobInfo[] = [
     {
         "role": "Contract Software Engineer",
-        "place": "RBS",
+        "place": "Royal Bank of Scotland (RBS)",
         "placeUrl": "https://www.business.rbs.co.uk/business/ways-to-bank/bankline.html",
         range: {
-            "from": formatZeroIndexedDate(4, 6, 2018)
+            "from": formatZeroIndexedDate(4, 6, 2018),
+            "to": formatZeroIndexedDate(9, 6, 2020)
         },
-        info: [
-            "Architecture, design and implementation of a new Kotlin microservice for New Bankline to perform regulatory Confirmation Of Payee verifications.",
-            "Collaborative design and coordination of broader business resources, for the creation of a DB2 database for Confirmation Of Payee checks.",
-            "Coordination with an under-development third-party service, to meet the API requirements.",
-            "API design across many microservices accompanied by consumer requirements gathering, finally producing a full API with associated swagger documentation.",
-            "Lead the addition of Cucumber features based on acceptance tests to several Java and Kotlin microservices.",
-            "Microservice implementation for accounts search, transactions search and search results pdf export.",
-            "Payment export requirement gathering. With the subsequent implementation of the said service."
+        technicalScope: "Java, Kotlin, DB2",
+        details: `
+            Analyse, design, develop, configure, test, and debug software/application enhancements and new
+            implementations. Apply industry-standard technologies; and implement high-quality solutions
+            aligned with business needs and specifications. Collaborate with cross-functional teams, creating a
+            DB2 database for confirmation of payee checks; and manage third-party service, ensuring alignment
+            with API requirements. Gather requirements, translating requirements into technical solutions.
+        `,
+        keyContributions: [
+            "Architected, designed and implemented new Kotlin confirmation of payee microservice for New Bankline, supporting 15K concurrent payments.",
+            "Led Cucumber features addition project, conducting acceptance tests on Java and Kotlin microservices."
         ]
     },
     {
@@ -49,71 +55,55 @@ const jobs: JobInfo[] = [
             "from": formatZeroIndexedDate(1, 4, 2017),
             "to": formatZeroIndexedDate(4, 6, 2018)
         },
-        info: [
-            "Consultancy work for Hargreaves Lansdown active savings project in a high-pressure agile delivery environment. Involved performance improvements through query refinement and caching. Collaboration in the design and implementation of an interface to open bank accounts and transfer funds.",
-            "Interviewed development candidates. Ranging from intern to lead developer.",
-            "Development of an open-source java library for POJO and hibernate test data generation. Release process involved publishing to maven central."
+        technicalScope: "Hibernate, Test Data Generation Library",
+        details: `
+            Developed and maintained custom applications, web applications and APIs, integrating custom
+            platforms with third-party systems. Owned solution design and architectural decisions; and resolve
+            code issues, troubleshooting and determining the root cause.
+        `,
+        keyContributions: [
+            "Developed open-source Java library for POJO and test data generation for Hibernate, publishing process to maven central.",
+            "Led active savings project in an Agile environment for Hargreaves Lansdown, enhancing bank processes for opening bank accounts and transferring funds."
         ]
     },
     {
-        "role": "Senior Developer, Joint Technical Lead",
-        "place": "Civica Digital",
+        "role": "Senior Developer",
+        "place": "Information Processing Limited (IPL)",
         "placeUrl": "https://www.civica.com/en-GB/civica-digital/",
         range: {
-            "from": formatZeroIndexedDate(1, 1, 2017),
+            "from": formatZeroIndexedDate(1, 10, 2015),
             "to": formatZeroIndexedDate(1, 4, 2017)
         },
-        info: [
-            "IPL merged into Civica.",
-            "Optimisation and performance tuning for complex algorithms involving MySQL DB, Java concurrency, spring batch and Lucene.",
-            "Lead developer for RSP sub-project providing inbound and outbound interfaces. It involved the processing of XML data utilising a pub-sub design.",
-            "Upon delivery of the service, explained the high-level design and implementation to the service team.",
-            "Implementation of a tool validating migrated data.",
-            "Implementation of a framework utilising Selenide and PhantomJS for integration testing of the system."
-        ]
-    },
-    {
-        "role": "Senior Developer, Joint Technical Lead",
-        "place": "IPL (Information Processing Limited)",
-        "placeUrl": "http://www.ipl.com/",
-        range: {
-            "from": formatZeroIndexedDate(1, 10, 2015),
-            "to": formatZeroIndexedDate(1, 1, 2017)
-        },
-        info: [
-            "Architected, designed and implemented a repricing and compliance engine for a product management system of railway tickets.",
-            "Technical advisor/supervisor and reviewer for development teams based in Poland and the UK.",
-            "Core development and support of a parallel spring batch process for exporting timeline data from several database tables also included calculation of incremental changes. This process would publish files to AWS S3 buckets and send SQS messages.",
-            "Implementation of an inbound interface for receiving files with approximately 22 million XML records then inserting and translating that data into the system's database.",
-            "Front-end interface for large amounts of data manipulation using AngularJs.",
-            "Optimisation and performance tuning for complex algorithms involving extensive data and database queries."
+        technicalScope: "MySQL DB, Java, Spring Batch, Lucene, XML, Selenide, PhantomJS, AWS S3, AngularJs",
+        details: `
+            Directed and mentored development teams in Poland and the United Kingdom, performing code
+            reviews and providing technical leadership. Produced technical documentation; and owned design
+            and implementation projects, building code structure and design.
+        `,
+        keyContributions: [
+            "Developed and maintained parallel spring batch process to export timeline data from multiple database tables, publishing files to AWS S3 buckets and sending SQS messages.",
+            "Implemented inbound interface to receive files comprising 22 million XML records, and translated data into a system database.",
+            "Served as Joint Technical Lead, leading RSP sub-project providing inbound/outbound interfaces; and presented the design and implementation features to Service Team.",
+            "Optimised and enhanced performance of complex algorithms; and implemented validation tools for migrated data and framework.",
+            "Continued as Senior Developer and Joint Technical Lead following IPL merger with Civica Digital in 2017."
         ]
     },
     {
         "role": "Developer",
-        "place": "IPL (Information Processing Limited)",
+        "place": "Information Processing Limited (IPL)",
         "placeUrl": "http://www.ipl.com/",
         range: {
-            "from": formatZeroIndexedDate(15, 7, 2013),
+            "from": formatZeroIndexedDate(1, 7, 2013),
             "to": formatZeroIndexedDate(1, 10, 2015)
         },
-        info: [
-            "Performed CRUD operations using MySQL, Hibernate, Spring MVC, JSP, and jQuery. With a very complex underlying data-structure and complicated business requirements.",
-            "Development was done in eclipse using git as a source control management system."
-        ]
-    },
-    {
-        "role": "Junior Programmer (University placement)",
-        "place": "Plymouth Marine Laboratory",
-        "placeUrl": "http://www.pml.ac.uk/",
-        range: {
-            "from": formatZeroIndexedDate(1, 8, 2011),
-            "to": formatZeroIndexedDate(20, 9, 2012)
-        },
-        info: [
-            "Processing of hyperspectral and LiDAR images captured from an aeroplane using a cluster queue management system.",
-            "Implementation of a DEM creation script using BASH, this would create a script that would be fed into an ArcGIS system to patch elevation models and LiDAR data together.",
-            "The completion of a website, for searching satellite images via a polygon."
+        technicalScope: "MySQL, Hibernate, Spring MVC, JSP, jQuery",
+        details: `
+            Developed full-stack web applications, collaborating with cross-functional teams to gather
+            requirements and feature specifications. Delivered bug-free code in-line with development sprints;
+            and wrote tests.
+        `,
+        keyContributions: [
+            "Performed CRUD and search operations for millions of information records."
         ]
     }
 ];
@@ -141,17 +131,25 @@ function formatDate(date: Date | undefined) {
 const App: React.FC = () => {
     return (
         <Container>
+
             <Row className={"border-bottom"}>
                 <Col xs={12}>
                     <h1 className={"mt-5"}>Adam Bennett</h1>
                 </Col>
                 <Col xs={12}>
                     <h5>
-                        Senior full-stack web developer -
+                        Senior Full-Stack Web Developer -
                         <a className={"ml-1"} href={"mailto:adben002@gmail.com"}>adben002@gmail.com</a>
                     </h5>
                 </Col>
             </Row>
+
+            <Row className={"mt-4"}>
+                <Col xs={12}>
+                    <h5>{`7+ years' in owning day-to-day platform performance and bug fixes.`}</h5>
+                </Col>
+            </Row>
+
             <Row className={"mt-4"}>
                 <Col xs={12}>
                     <h3>
@@ -160,9 +158,28 @@ const App: React.FC = () => {
                     </h3>
                 </Col>
             </Row>
-            <Col
-                xs={12}> {`Senior full-stack web developer with ${Math.floor(counter / 31536000000)}+ years' experience across several industries designing, architecting, implementing and testing web applications. With enthusiasm for producing agile high-performance, high-resilience customer-focused products.`}
-            </Col>
+
+            <Row>
+                <Col
+                    xs={12}> {` Full-stack development professional with a passion for new technologies and improving processes.
+                            Experience with an Agile environment and understanding of requirements to develop them into
+                            working features. Comprehensive knowledge of business and technical requirements to drive
+                            technological development. Strong organisational and project management skills, leveraging
+                            strengths in team leadership, cross-team collaboration, and stakeholder communication.`
+                }
+                </Col>
+            </Row>
+
+            <Row>
+                <Col xs={2}/>
+                <Col className={"text-center pt-3 pb-3"}
+                     xs={8}> <i>{` Software Engineering / Web Development / Application Modernization / Agile Environment
+                            System Architecture Design and Implementation / Root Cause Analysis / Project Management`
+                }</i>
+                </Col>
+                <Col xs={2}/>
+            </Row>
+
             <Row className={"mt-4"}>
                 <Col xs={12}>
                     <h3>
@@ -174,15 +191,15 @@ const App: React.FC = () => {
             <Row className={"pl-5 pr-5"}>
                 <Col xs={4} className={"App-Item"}>Java</Col>
                 <Col xs={4} className={"App-Item"}>API Design</Col>
-                <Col xs={4} className={"App-Item"}>Database Design</Col>
+                <Col xs={4} className={"App-Item"}>Database Delivery</Col>
                 <Col xs={4} className={"App-Item"}>Agile Delivery</Col>
                 <Col xs={4} className={"App-Item"}>Microservice Architecture</Col>
                 <Col xs={4} className={"App-Item"}>Spring 3+</Col>
                 <Col xs={4} className={"App-Item"}>Git</Col>
                 <Col xs={4} className={"App-Item"}>SQL (Oracle, DB2, MySQL)</Col>
                 <Col xs={4} className={"App-Item"}>Kotlin</Col>
-                <Col xs={4} className={"App-Item"}>Hibernate / JPA</Col>
-                <Col xs={4} className={"App-Item"}>Amazon Web Services</Col>
+                <Col xs={4} className={"App-Item"}>Hibernate/JPA</Col>
+                <Col xs={4} className={"App-Item"}>Amazon Web Services (AWS)</Col>
                 <Col xs={4} className={"App-Item"}>React</Col>
                 <Col xs={4} className={"App-Item"}>Lucene</Col>
                 <Col xs={4} className={"App-Item"}>Python</Col>
@@ -206,16 +223,22 @@ const App: React.FC = () => {
                         </Card.Header>
 
                         <Card.Body>
-                        <span>
-                            <strong>
-                              <a target={"_blank"} rel="noopener noreferrer"
-                                 href={value.placeUrl} className={"mr-1"}>{value.place}</a>
-                            </strong>
-                        </span>
+                            <span>
+                                <strong>
+                                  <a target={"_blank"} rel="noopener noreferrer"
+                                     href={value.placeUrl} className={"mr-1"}>{value.place}</a>
+                                </strong>
+                            </span>
                             <span
                                 className="text-grey-color">({formatDate(value.range.from)} to {formatDate(value.range.to)})</span>
+                            <div className="pt-1 pb-1 pl-1 pr-1">
+                                <i>Technical Scope: {value.technicalScope}</i>
+                            </div>
+                            <div className="pt-1 pb-2 pl-1 pr-1">
+                                {value.details}
+                            </div>
                             <ul>
-                                {value.info.map((x, i) =>
+                                {value.keyContributions.map((x, i) =>
                                     <li key={i}>{x}</li>
                                 )}
                             </ul>
