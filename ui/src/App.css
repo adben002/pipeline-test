@@ -1,46 +1,13 @@
 .App {
-  text-align: center;
-}
-
-a {
-  color: #0055B3 !important;
-}
-
-@media print
-{
-  div{
-    page-break-inside: avoid;
-  }
-}
-
-@media print
-{
-  .no-print, .no-print *
-  {
-    display: none !important;
-  }
-}
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #61dafb;
+    text-align: center;
 }
 
 .App-Item {
-  color: #856404;
-  background-color: #ffeeba;
-  position: relative;
-  display: block;
-  padding: .75rem 1.25rem;
+    color: #856404;
+    background-color: #ffeeba;
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
 
-  border: 1px solid rgba(0,0,0,.125);
+    border: 1px solid rgba(0, 0, 0, .125);
 }

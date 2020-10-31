@@ -108,12 +108,6 @@ const jobs: JobInfo[] = [
     }
 ];
 
-let counter = 0;
-for (let i = 0; i < jobs.length; i++) {
-    let toDate = jobs[i].range.to || new Date();
-    counter += (toDate.getTime() - jobs[i].range.from.getTime());
-}
-
 function formatDate(date: Date | undefined) {
 
     if (!date) {
@@ -128,7 +122,8 @@ function formatDate(date: Date | undefined) {
 
 }
 
-const App: React.FC = () => {
+
+function App() {
     return (
         <Container>
 
@@ -304,6 +299,6 @@ const App: React.FC = () => {
             </Row>
         </Container>
     );
-};
+}
 
 export default App;
