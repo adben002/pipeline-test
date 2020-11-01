@@ -141,7 +141,7 @@ function App() {
 
             <Row className={"mt-4"}>
                 <Col xs={12}>
-                    <h5>{`8+ years' in owning day-to-day platform performance and bug fixes.`}</h5>
+                    <h5>{`7+ years' in owning day-to-day platform performance and bug fixes.`}</h5>
                 </Col>
             </Row>
 
